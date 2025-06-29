@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: rag_mistral_split-backend
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env:
+            - name: QDRANT_HOST
+              value: "qdrant"
+            - name: QDRANT_PORT
+              value: "6333"
+          resources:
+            limits:
+              nvidia.com/gpu: 1
