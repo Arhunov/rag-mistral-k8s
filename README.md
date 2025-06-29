@@ -1,4 +1,4 @@
-# Full-Stack AI Assistant: RAG Pipeline on Kubernetes
+# RAG-based AI Assistant with Mistral 7B, Qdrant, and FastAPI deployed via Kubernetes
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
 ![Gradio](https://img.shields.io/badge/Gradio-4.0%2B-orange?style=for-the-badge&logo=gradio)
