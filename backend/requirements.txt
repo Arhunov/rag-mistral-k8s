@@ -1,0 +1,10 @@
+qdrant-client
+torch==2.6
+transformers
+fastapi
+uvicorn[standard]
+python-multipart
+sentence_transformers
+pymupdf
+accelerate
+sentencepiece
