@@ -51,7 +51,7 @@ This method is recommended for quick local setup and testing.
     git clone https://github.com/Arhunov/rag-mistral-k8s.git
     cd rag-mistral-k8s
     ```
-2.  **Prepare Data:** Place your PDF documents into the `docs-pdf/` directory. Note that the default prompts are optimized for technical documentation; you may need to adjust them for your specific data.
+2.  **Prepare Data:** Place your PDF documents into the `docs-pdf/` directory. Note that the original prompts are optimized for python technical documentation; you may need to adjust them for your specific data.
 3.  **Launch Services:**
     ```bash
     docker-compose up --build
