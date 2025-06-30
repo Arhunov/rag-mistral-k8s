@@ -38,25 +38,36 @@ The application follows a microservice architecture, decoupling the main compone
 ## Getting Started
 
 ### Prerequisites
-*   Docker & Docker Compose
+*   Docker
 *   Kubernetes (e.g., Minikube)
 *   `kubectl`
+*   Python
 
-### Option 1: Local Development with Docker Compose
-
-This method is recommended for quick local setup and testing.
-
+    ### **General instructions. In both cases, it is necessary to deploy the application.**
+    
 1.  **Clone the Repository:**
     ```bash
     git clone https://github.com/Arhunov/rag-mistral-k8s.git
     cd rag-mistral-k8s
     ```
-2.  **Prepare Data:** Place your PDF documents into the `docs-pdf/` directory. Note that the original prompts are optimized for python technical documentation; you may need to adjust them for your specific data.
-3.  **Launch Services:**
+2.  **Download models:** Edit download_models.py to set your HF token and chosen models.
+    ```bash
+    pip install huggingface_hub
+    python download_models.py
+    ```
+3.  **Prepare Data:** Place your PDF documents into the `docs-pdf/` directory. Note that the original prompts are optimized for python technical documentation; you may need to adjust them for your specific data.
+   
+    ---
+
+    ### Option 1: Local Development with Docker Compose
+
+    This method is recommended for quick local setup and testing.
+
+4.  **Launch Services:**
     ```bash
     docker-compose up --build
     ```
-4.  **Index Documents:** In a separate terminal, execute the indexing script.
+5.  **Index Documents:** In a separate terminal, execute the indexing script.
     ```bash
     # This command connects to the running backend container and runs the script
     docker-compose exec backend python update.py
@@ -64,32 +75,34 @@ This method is recommended for quick local setup and testing.
     # To clear the existing collection before indexing:
     docker-compose exec backend python update.py --drop
     ```
-5.  **Access UI:** The Gradio UI will be available at `http://localhost:7860/gradio`.
+6.  **Access UI:** The Gradio UI will be available at `http://localhost:7860/gradio`.
+   
+    ---
 
-### Option 2: Deployment on Kubernetes (Minikube)
+    ### Option 2: Deployment on Kubernetes (Minikube)
 
-This simulates a production-like deployment. The following instructions are for PowerShell but can be adapted for Linux/macOS.
+    This simulates a production-like deployment. The following instructions are for PowerShell but can be adapted for Linux/macOS.
 
-1.  **Start Minikube:** Allocate sufficient resources and enable GPU access if available.
+4.  **Start Minikube:** Allocate sufficient resources (tested with 12gb memory and 5 CPU) and enable GPU access if available.
     ```powershell
-    minikube start --cpus=5 --memory=12000 --driver=docker --gpus all
+    minikube start --cpus= --memory= --driver=docker --gpus all
     ```
-2.  **Set Docker Environment:** Point your local Docker client to the Docker daemon inside Minikube. This ensures images are built within the cluster's context.
+5.  **Set Docker Environment:** Point your local Docker client to the Docker daemon inside Minikube. This ensures images are built within the cluster's context.
     ```powershell
     # For PowerShell
     & minikube -p minikube docker-env | Invoke-Expression
     # For Linux/macOS
     # eval $(minikube -p minikube docker-env)
     ```
-3.  **Build Images:** Build the Docker images using Docker Compose. The images will be stored in Minikube's Docker daemon.
+6.  **Build Images:** Build the Docker images using Docker Compose. The images will be stored in Minikube's Docker daemon.
     ```bash
     docker-compose build
     ```
-4.  **Deploy to Kubernetes:** Apply the manifest files located in the `k8s/` directory.
+7.  **Deploy to Kubernetes:** Apply the manifest files located in the `k8s/` directory.
     ```bash
     kubectl apply -f k8s/
     ```
-5.  **Access the Application:**
+8.  **Access the Application:**
     *   Find the frontend pod name: `kubectl get pods`.
     *   Forward the port from the pod to your local machine.
         ```bash
@@ -97,7 +110,7 @@ This simulates a production-like deployment. The following instructions are for 
         ```
     *   Access the UI in your browser at `http://localhost:7860/gradio/`.
 
-6.  **Manage the Database on Kubernetes:**
+9.  **Manage the Database on Kubernetes:**
     *   To index new documents, execute the update script inside the backend pod.
         ```bash
         # First, get the backend pod name
